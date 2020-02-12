@@ -1,0 +1,48 @@
+#build our own trained matrix
+
+include("sim.jl")
+
+println("setting up weights")
+
+Ne,Ni,jee0,jei0,jie,jii,p = weightpars()
+jeemax = 21.4 #maximum ee strength
+T = 5000
+Ncells = Ne+Ni
+
+#set up weights
+#note: weights are set up so that w[i,j] is weight from presynaptic i to postsynaptic j
+#this is for performance: iterating over presynaptic indices is more important and
+#Julia uses column-major arrays
+weights = zeros(Ncells,Ncells)
+weights[1:Ne,1:Ne] .= jee0
+weights[1:Ne,(1+Ne):Ncells] .= jie
+weights[(1+Ne):Ncells,1:Ne] .= jei0
+weights[(1+Ne):Ncells,(1+Ne):Ncells] .= jii
+
+weights = weights.*(rand(Ncells,Ncells) .< p)
+
+
+#populations
+Npop = 20 #number of assemblies
+pmembership = .05 #probability of belonging to any assembly
+Nmaxmembers = 50 #maximum number of neurons in a population (to set size of matrix)
+
+#set up populations
+popmembers = zeros(Int,Npop,Nmaxmembers)
+for pp = 1:Npop
+    members = findall(rand(Ne) .< pmembership)
+    popmembers[pp,1:length(members)] = members
+
+    #make the members max connected
+    weights[members,members] .= jeemax
+
+end
+
+for cc = 1:Ncells
+    weights[cc,cc] = 0
+end
+
+stim = zeros(1,4)
+times,ns,Ne,Ncells,T,weights_time = sim(stim,weights,popmembers,T)
+println("mean excitatory firing rate: ",mean(1000*ns[1:Ne]/T)," Hz")
+println("mean inhibitory firing rate: ",mean(1000*ns[(Ne+1):Ncells]/T)," Hz")

@@ -1,0 +1,5 @@
+import Pkg;Pkg.add("Distributions")
+
+import Pkg; Pkg.add("HDF5")
+
+import Pkg; Pkg.add("PyPlot")

@@ -1,0 +1,34 @@
+litwin-kumar_doiron_formation_2014
+Copyright (C) 2014 Ashok Litwin-Kumar
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+SUMMARY:
+This program implements the model of:
+A. Litwin-Kumar & B. Doiron.  Formation and maintenance of neuronal assemblies through synaptic plasticity.  Nature Communications (2014).
+
+You have the option of running a new (untrained) network or loading a network that has been trained as described in the paper.  Edit runsim.jl to choose.
+
+This code is not at all optimized.  For example, the weights are stored as a dense matrix so loops iterate over many zero entries.
+
+REQUIREMENTS:
+This program requires Julia (julialang.org). Tested on Julia 1.0. Loading the trained weights requires HDF5 and the corresponding Julia package.
+
+USE:
+To run the simulation, enter the command include("runsim.jl") from a Julia interactive session.  
+
+
+CONTACT:
+ak3625@columbia.edu
+lk.zi.columbia.edu
